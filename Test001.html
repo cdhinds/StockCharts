@@ -229,34 +229,39 @@
                     responsive: true,
                     plugins: {
                         tooltip: {
-							callbacks: {
-								label: function(content) {
-									return '$' + content.raw.toFixed(2); // Show only stock price prefixed with $
-								},
-								title: function() {
-									return ''; // Remove the title (time) from the tooltip
-								}
-							},
-							displayColors: false // Remove the colored box from the tooltip
+				callbacks: {
+					label: function(content) {
+						return '$' + content.raw.toFixed(2); // Show only stock price prefixed with $
 						},
-						legend: {
-                            display: false // Removed legend
-                        },
-                    },
+						title: function() {
+						return ''; // Remove the title (time) from the tooltip
+						}
+					},
+					displayColors: false // Remove the colored box from the tooltip
+					},
+				legend: {
+                            	display: false // Removed legend
+                        	},
+                    	},
                     scales: {
                         x: {
-                            title: {
-				display: true,
-				text: 	period === "5D" ? "Past 5 days" :
-					period === "1M" ? "Past 1 month" :
-					period === "6M" ? "Past 6 months" :
-					"Past 1 year",
-				color:	"black",
-				font:	{size: 14,
-					weight: "bold",
-					}
-			    }
-			},
+                            	title: {
+					display: true,
+						text: 	period === "5D" ? "Past 5 days" :
+							period === "1M" ? "Past 1 month" :
+							period === "6M" ? "Past 6 months" :
+							"Past 1 year",
+						color:	"black",
+						font:	{size: 14,
+							weight: "bold",
+							}
+						},
+				ticks: {
+                                	font: {
+                                    		size: 10
+                                	}
+                            	}
+                        },
                         y: {
                             ticks: {
                                 font: {
