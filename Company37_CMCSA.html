@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Price Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            font-size: 12px;
+            overflow-x: hidden;
+        }
+        .company-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 98%;
+            margin: 0 1%;
+        }
+        #company-info {
+            text-align: center;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            margin: 13px 0;
+        }
+        .button-group button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            font-size: 10px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background-color: #f5f5f5;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .button-group button:hover {
+            background-color: #e0e0e0;
+        }
+        .button-group button.active {
+            color: white;
+        }
+        .info-container {
+            display: flex;
+            justify-content: space-between;
+            width: 70%;
+			margin: 0 15%
+        }
+        .chart-container {
+            width: 96%;
+            height: auto;
+            margin: 0 2%;
+        }
+        table {
+            width: 80%;
+			margin: 0;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        th, td {
+            padding: 3px;
+            text-align: left;
+        }
+        .info-container table {
+            margin-right: 55px;
+        }
+		.metrics-container {
+			display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+			width: 100%;
+            margin: 0 0 0 22.5%;
+		}
+		.metrics-column {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			width: 200px;
+			gap: 10px;
+		}
+		.metrics-column strong {
+			display: block;
+			font-size: 12px;
+		}
+		.metrics-column span {
+			display: block;
+			font-size: 12px;
+		}   
+    </style>
+</head>
+<body>
+    <div class="company-container">
+        <div id="company-info">
+            <h1 id="company-name" style="font-size: 16px;">Company A</h1>
+        </div>
+        <div class="info-container">
+            <div class="chart-container">
+                <canvas id="stockChartA"></canvas>
+                <div class="button-group">
+                    <button class="time-toggle" data-company="A" data-period="5D">5 Day</button>
+                    <button class="time-toggle" data-company="A" data-period="1M">1 Month</button>
+                    <button class="time-toggle" data-company="A" data-period="6M">6 Month</button>
+                    <button class="time-toggle" data-company="A" data-period="1Y">1 Year</button>
+                </div>
+            </div>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time Period</th>
+                            <th>Return (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="return-dataA">
+                        <!-- Filled dynamically -->
+                    </tbody>
+                </table>
+            </div>
+		</div>
+		<div class="metrics-container">
+			<div class="metrics-column">
+				<strong>Market Cap:</strong>
+				<span>$150.33 Billion</span>
+
+				<strong>Earnings Per Share:</strong>
+				<span>$5.08</span>
+				
+				<strong></strong>
+				<span></span>
+			</div>
+
+			<div class="metrics-column">
+				<strong>Price-Earnings Ratio:</strong>
+				<span>6.46</span>
+
+				<strong>Return on Assets:</strong>
+				<span>3.34%</span>
+
+				<strong></strong>
+				<span></span>
+			</div>
+
+			<div class="metrics-column">
+				<strong>Analyst Consensus Price Target:</strong>
+				<span>$48.87</span>
+
+				<strong>Low Analyst Price Target:</strong>
+				<span>$42.00</span>
+
+				<strong>High Analyst Price Target:</strong>
+				<span>$56.00</span>
+			</div>
+			
+			<div class="metrics-column">
+				<!-- Placeholder for symmetry, can be left empty or populated if needed -->
+			</div>
+		</div>
+	</div>
+
+    <script>
+        const companyNameA = "Company A";
+        const tickerSymbolA = "CMA";
+
+        const stockDataA = {
+            "5D": [36.96, 37.74, 37.32, 37.81, 37.90], /* All */
+            "1M": [35.74, 35.48, 35.31, 36.50, 36.43, 36.35, 36.75, 36.68, 36.99, 36.38, 
+					36.28, 35.92, 36.17, 36.36, 36.30, 36.09, 37.04, 36.96, 36.96, 37.74, 
+					37.32, 37.81, 37.90], /* All */
+            "6M": [34.49, 33.28, 33.47, 33.95, 33.02, 33.48, 34.26, 32.06, 32.39, 31.90, 
+					32.41, 32.34, 31.88, 31.48, 31.08, 32.00, 33.88, 32.79, 32.29, 33.09, 
+					33.34, 34.97, 34.30, 34.75, 35.40, 35.40, 35.04, 35.60, 35.31, 36.75, 
+					36.28, 36.36, 37.04, 37.74, 37.90], /* 35 Ticks */
+            "1Y": [37.47, 38.53, 38.48, 37.97, 37.80, 36.47, 36.83, 35.15, 36.85, 35.83, 
+					37.19, 37.89, 39.71, 40.82, 40.67, 42.44, 42.44, 42.53, 38.19, 39.79, 
+					39.58, 36.66, 36.12, 36.15, 33.17, 33.47, 34.12, 33.56, 33.53, 33.48, 
+					31.81, 32.39, 32.01, 31.88, 31.26, 32.00, 32.81, 32.29, 33.58, 34.97, 
+					33.39, 35.40, 35.41, 35.49, 35.66, 35.31, 36.68, 36.17, 36.96, 37.90] /* 50 Ticks */
+        };
+
+        const stockMetricListA = [
+            {period: '5D', value: stockDataA["5D"].map(val => `${((val - stockDataA["5D"][0]) / stockDataA["5D"][0]) * 100}%`)}, 
+			{period: '1M', value: stockDataA["1M"].map(val => `${((val - stockDataA["1M"][0]) / stockDataA["1M"][0]) * 100}%`)},
+			{period: '6M', value: stockDataA["6M"].map(val => `${((val - stockDataA["6M"][0]) / stockDataA["6M"][0]) * 100}%`)}, 
+			{period: '1Y', value: stockDataA["1Y"].map(val => `${((val - stockDataA["1Y"][0]) / stockDataA["1Y"][0]) * 100}%`)}
+        ];
+        
+        const timeLabels = {
+            "5D": ["|","|", "|", "|", "|"],
+            "1M": ["|","|","|","|","|","|","|","|","|","|",
+						"|","|","|","|","|","|","|","|","|","|",
+						"|","|","|"],
+            "6M": ["|","|","|","|","|","|","|","|","|","|",
+						"|","|","|","|","|","|","|","|","|","|",
+						"|","|","|","|","|","|","|","|","|","|",
+						"|","|","|","|","|"],
+            "1Y": ["|","|","|","|","|","|","|","|","|","|",
+						"|","|","|","|","|","|","|","|","|","|",
+						"|","|","|","|","|","|","|","|","|","|",
+						"|","|","|","|","|","|","|","|","|","|",
+						"|","|","|","|","|","|","|","|","|","|"]
+        };
+
+        const ctxA = document.getElementById("stockChartA").getContext("2d");
+        let chartA;
+        let currentPeriodA = "5D";
+
+        function calculateReturn(period, stockData) {
+            const data = stockData[period];
+            return (((data[data.length - 1] - data[0]) / data[0]) * 100).toFixed(2);
+        }
+
+        function updateReturnTableA() {
+            const returnData = Object.keys(stockDataA).map(period => `
+                <tr>
+                    <td>${period}</td>
+                    <td>${calculateReturn(period, stockDataA)}%</td>
+                </tr>
+            `).join('');
+            document.getElementById("return-dataA").innerHTML = returnData;
+        }
+
+        function createChart(company, stockData, period) {
+            const ctx = company === 'A' ? ctxA : ctxB;
+            const currentData = stockData[period];
+            const chartConfig = {
+                type: "line",
+                data: {
+                    labels: timeLabels[period],
+                    datasets: [{
+                        label: '',
+                        data: currentData,
+                        fill: false,
+                        borderColor: currentData[0] < currentData[currentData.length - 1] ? "green" : "red",
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+							callbacks: {
+								label: function(content) {
+									return '$' + content.raw.toFixed(2); // Show only stock price prefixed with $
+								},
+								title: function() {
+									return ''; // Remove the title (time) from the tooltip
+								}
+							},
+							displayColors: false // Remove the colored box from the tooltip
+						},
+						legend: {
+                            display: false // Removed legend
+                        },
+                    },
+                    scales: {
+                        x: {
+                            title: {
+								display: true,
+								text: 	period === "5D" ? "Past 5 days" :
+										period === "1M" ? "Past 1 month" :
+										period === "6M" ? "Past 6 months" :
+										"Past 1 year",
+								color:	"black",
+								font:	{size: 14,
+										weight: "bold",
+								}
+							},
+							ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                },
+                                callback: function(value) {
+                                    return '$' + value.toFixed(2);
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            if (company === 'A' && chartA) {
+                chartA.destroy();
+            } 
+
+            return new Chart(ctx, chartConfig);
+        }
+
+        function updateChart(company, period) {
+            const stockData = company === 'A' ? stockDataA : stockDataB;
+            const currentData = stockData[period];
+            const buttonGroup = document.querySelectorAll(`.time-toggle[data-company="${company}"]`);
+            
+            buttonGroup.forEach(button => {
+                button.classList.remove('active');
+                if (button.getAttribute('data-period') === period) {
+                    button.classList.add('active');
+                    const color = currentData[0] < currentData[currentData.length - 1] ? 'green' : 'red';
+                    button.style.backgroundColor = color;
+                } else {
+                    button.style.backgroundColor = ''; // Reset other buttons
+                }
+            });
+            
+            if (company === 'A') {
+                currentPeriodA = period;
+                chartA = createChart('A', stockDataA, period);
+                updateReturnTableA();
+            } 
+        }
+
+        document.querySelectorAll('.time-toggle').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const company = e.target.getAttribute('data-company');
+                const period = e.target.getAttribute('data-period');
+                updateChart(company, period);
+            });
+        });
+
+        updateChart('A', '5D');
+    </script>
+</body>
+</html>
