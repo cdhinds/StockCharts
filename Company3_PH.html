@@ -26,27 +26,6 @@
         #company-info {
             text-align: center;
         }
-        .button-group {
-            display: flex;
-            justify-content: center;
-            margin: 13px 0;
-        }
-        .button-group button {
-            margin: 0 5px;
-            padding: 5px 10px;
-            font-size: 10px;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            background-color: #f5f5f5;
-            border-radius: 3px;
-            transition: background-color 0.3s;
-        }
-        .button-group button:hover {
-            background-color: #e0e0e0;
-        }
-        .button-group button.active {
-            color: white;
-        }
         .info-container {
             display: flex;
             justify-content: space-between;
@@ -65,12 +44,6 @@
         <div class="info-container">
             <div class="chart-container">
                 <canvas id="stockChartA"></canvas>
-                <div class="button-group">
-                    <button class="time-toggle" data-company="A" data-period="5D">5 Day</button>
-                    <button class="time-toggle" data-company="A" data-period="1M">1 Month</button>
-                    <button class="time-toggle" data-company="A" data-period="6M">6 Month</button>
-                    <button class="time-toggle" data-company="A" data-period="1Y">1 Year</button>
-                </div>
             </div>
 	</div>
 
@@ -80,41 +53,14 @@
 
         const stockDataA = {
             "5D": [882.23, 867.75, 872.69, 902.66, 886.85], /* All */
-            "1M": [966.05, 982.99, 984.23, 989.49, 985.00, 963.76, 957.00, 988.80, 996.44, 972.69,
-					954.43, 973.88, 974.47, 974.34, 962.26, 947.50, 909.42, 882.23, 867.75, 872.69,
-					902.66, 886.85], /* All */
-            "6M": [844.01, 854.32, 831.95, 817.30, 819.40, 840.02, 861.70, 869.20, 862.93, 884.87, 
-					863.19, 888.08, 908.39, 906.47, 936.21, 927.99, 916.27, 967.62, 978.87, 1001.75, 
-					1008.97, 1009.18, 987.79, 923.72, 950.39, 889.86, 894.41, 921.56, 861.48, 908.06,
-					989.49, 972.69, 962.26, 867.75, 886.85], /* 35 Ticks */
-            "1Y": [623.02, 668.76, 680.05, 654.96, 664.70, 661.97, 666.86, 652.73, 698.47, 708.64, 
-					728.17, 732.03, 697.13, 745.34, 733.05, 759.35, 755.24, 748.76, 758.14, 716.66, 
-					741.39, 775.03, 774.15, 834.15, 854.32, 844.01, 819.40, 856.12, 879.67, 899.13,
-					867.95, 888.82, 878.96, 920.99, 944.27, 933.05, 916.27, 967.62, 982.21, 1014.97, 
-					1011.41, 923.72, 894.41, 861.48, 912.97, 984.23, 996.44, 947.50, 872.69, 886.85] /* 50 Ticks */
         };
 
         const stockMetricListA = [
             {period: '5D', value: stockDataA["5D"].map(val => `${((val - stockDataA["5D"][0]) / stockDataA["5D"][0]) * 100}%`)}, 
-			{period: '1M', value: stockDataA["1M"].map(val => `${((val - stockDataA["1M"][0]) / stockDataA["1M"][0]) * 100}%`)},
-			{period: '6M', value: stockDataA["6M"].map(val => `${((val - stockDataA["6M"][0]) / stockDataA["6M"][0]) * 100}%`)}, 
-			{period: '1Y', value: stockDataA["1Y"].map(val => `${((val - stockDataA["1Y"][0]) / stockDataA["1Y"][0]) * 100}%`)}
         ];
         
         const timeLabels = {
-            "5D": ["|","|", "|", "|", "|"],
-            "1M": ["|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|"],
-            "6M": ["|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|"],
-            "1Y": ["|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|"]
+            "5D": ["|","|", "|", "|", "|"]
         };
 
         const ctxA = document.getElementById("stockChartA").getContext("2d");

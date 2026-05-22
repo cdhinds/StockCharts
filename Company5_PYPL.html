@@ -26,27 +26,6 @@
         #company-info {
             text-align: center;
         }
-        .button-group {
-            display: flex;
-            justify-content: center;
-            margin: 13px 0;
-        }
-        .button-group button {
-            margin: 0 5px;
-            padding: 5px 10px;
-            font-size: 10px;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            background-color: #f5f5f5;
-            border-radius: 3px;
-            transition: background-color 0.3s;
-        }
-        .button-group button:hover {
-            background-color: #e0e0e0;
-        }
-        .button-group button.active {
-            color: white;
-        }
         .info-container {
             display: flex;
             justify-content: space-between;
@@ -65,12 +44,6 @@
         <div class="info-container">
             <div class="chart-container">
                 <canvas id="stockChartA"></canvas>
-                <div class="button-group">
-                    <button class="time-toggle" data-company="A" data-period="5D">5 Day</button>
-                    <button class="time-toggle" data-company="A" data-period="1M">1 Month</button>
-                    <button class="time-toggle" data-company="A" data-period="6M">6 Month</button>
-                    <button class="time-toggle" data-company="A" data-period="1Y">1 Year</button>
-                </div>
             </div>
 	</div>
 
@@ -80,41 +53,14 @@
 
         const stockDataA = {
             "5D": [46.27, 46.22, 45.37, 45.07, 45.44], /* All */
-            "1M": [47.51, 47.97, 49.57, 49.81, 50.81, 51.46, 50.88, 51.22, 49.75, 50.48,
-					49.77, 49.64, 50.94, 50.14, 50.44, 50.39, 46.49, 46.27, 46.22, 45.37,
-					45.07, 45.44], /* All */
-            "6M": [67.20, 60.70, 58.10, 60.56, 62.90, 60.78, 60.18, 59.81, 59.97, 58.14, 
-					58.51, 57.29, 56.74, 55.89, 55.08, 56.62, 55.51, 52.33, 39.90, 41.49, 
-					39.08, 41.65, 47.32, 45.63, 46.97, 44.90, 46.13, 44.21, 44.67, 45.24,
-					50.88, 49.64, 50.39, 45.37, 45.44], /* 35 Ticks */
-            "1Y": [72.31, 71.45, 69.85, 70.28, 74.81, 70.67, 68.57, 73.17, 75.03, 71.36, 
-					78.22, 67.11, 67.08, 69.05, 69.25, 65.64, 67.31, 66.66, 75.75, 66.05, 
-					67.93, 73.02, 66.22, 65.33, 58.10, 61.24, 60.18, 59.10, 58.51, 58.38,
-					56.74, 55.89, 52.33, 39.90, 39.08, 41.65, 46.21, 46.16, 44.36, 43.59, 
-					44.63, 45.34, 44.87, 45.24, 49.81, 49.77, 50.39, 45.37, 45.07, 45.44] /* 50 Ticks */
         };
 
         const stockMetricListA = [
             {period: '5D', value: stockDataA["5D"].map(val => `${((val - stockDataA["5D"][0]) / stockDataA["5D"][0]) * 100}%`)}, 
-			{period: '1M', value: stockDataA["1M"].map(val => `${((val - stockDataA["1M"][0]) / stockDataA["1M"][0]) * 100}%`)},
-			{period: '6M', value: stockDataA["6M"].map(val => `${((val - stockDataA["6M"][0]) / stockDataA["6M"][0]) * 100}%`)}, 
-			{period: '1Y', value: stockDataA["1Y"].map(val => `${((val - stockDataA["1Y"][0]) / stockDataA["1Y"][0]) * 100}%`)}
         ];
         
         const timeLabels = {
-            "5D": ["|","|", "|", "|", "|"],
-            "1M": ["|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|"],
-            "6M": ["|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|"],
-            "1Y": ["|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|",
-						"|","|","|","|","|","|","|","|","|","|"]
+            "5D": ["|","|", "|", "|", "|"]
         };
 
         const ctxA = document.getElementById("stockChartA").getContext("2d");
