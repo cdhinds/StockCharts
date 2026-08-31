@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metric Display — EPS Low</title>
+<!--
+  CONDITION: High, EPS Low (Price, EPS, Return on Assets, and Revenue high evaluability except EPS, which is low)
+  Only the EPS tile's "Prior Year" row is marked
+  class="tile-row is-hidden" — it takes up space but shows nothing. The
+  other three tiles show their Prior Year row normally. To hard-code trial
+  values, edit every <span class="tile-val"> figure, current and prior,
+  including the hidden one for EPS (its content never renders,
+  but keep something in it so the row height still reserves correctly).
+
+  Formatting rules:
+    Stock Price          $0.00   (dollars, 2 decimals)
+    EPS                  $0.00   (dollars, 2 decimals)
+    Return on Assets     0.00%   (percent, 2 decimals)
+    Revenue              $0.00B  (billions, 2 decimals)
+
+  Suggested iframe height in Qualtrics: ~230px (adjust if you change font
+  sizes below). Body background is white (#ffffff) — change --bg if your
+  survey theme uses a different page color.
+-->
+<style>
+  :root {
+    --ink: #1b222b;
+    --ink-soft: #5b6675;
+    --ink-faint: #8b95a3;
+    --border: #d7dce2;
+    --surface: #f5f6f8;
+    --bg: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    padding: 14px 10px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    max-width: 420px;
+  }
+  .tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px 11px;
+  }
+  .tile-label {
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 650;
+    margin-bottom: 4px;
+  }
+  .tile-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    padding: 3px 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .tile-row + .tile-row { border-top: 1px solid var(--border); }
+  .tile-key { font-size: 12px; color: var(--ink); }
+  .tile-val {
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .tile-row.is-hidden { visibility: hidden; }
+</style>
+</head>
+<body>
+  <div class="grid">
+
+    <div class="tile">
+      <div class="tile-label">Stock Price</div>
+      <div class="tile-row">
+        <span class="tile-key">Current</span>
+        <span class="tile-val">$56.00</span>
+      </div>
+      <div class="tile-row">
+        <span class="tile-key">Prior Year</span>
+        <span class="tile-val">$46.57</span>
+      </div>
+    </div>
+
+    <div class="tile">
+      <div class="tile-label">EPS</div>
+      <div class="tile-row">
+        <span class="tile-key">Current</span>
+        <span class="tile-val">$7.71</span>
+      </div>
+      <div class="tile-row is-hidden">
+        <span class="tile-key">Prior Year</span>
+        <span class="tile-val">-$3.16</span>
+      </div>
+    </div>
+
+    <div class="tile">
+      <div class="tile-label">Return on Assets</div>
+      <div class="tile-row">
+        <span class="tile-key">Current</span>
+        <span class="tile-val">9.55%</span>
+      </div>
+      <div class="tile-row">
+        <span class="tile-key">Prior Year</span>
+        <span class="tile-val">-3.79%</span>
+      </div>
+    </div>
+
+    <div class="tile">
+      <div class="tile-label">Revenue (in billions)</div>
+      <div class="tile-row">
+        <span class="tile-key">Current</span>
+        <span class="tile-val">$51.31B</span>
+      </div>
+      <div class="tile-row">
+        <span class="tile-key">Prior Year</span>
+        <span class="tile-val">$38.04B</span>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
