@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Metric Display — All Low</title>
+<title>Metric Display — Return on Assets Low</title>
 <!--
-  CONDITION: All Low (Price, EPS, Return on Assets, and Revenue all low evaluability)
-  Every "Prior Year" row is marked class="tile-row is-hidden" so it takes up
-  space but shows nothing. To hard-code trial values, edit only the four
-  <span class="tile-val"> current-year figures below — leave the hidden
-  prior-year spans as-is (their content never renders, but keep something
-  in them so the row height still reserves correctly).
+  CONDITION: High, Return on Assets Low (Price, EPS, Return on Assets, and Revenue high evaluability except Return on Assets, which is low)
+  Only the Return on Assets tile's "Prior Year" row is marked
+  class="tile-row is-hidden" — it takes up space but shows nothing. The
+  other three tiles show their Prior Year row normally. To hard-code trial
+  values, edit every <span class="tile-val"> figure, current and prior,
+  including the hidden one for Return on Assets (its content never renders,
+  but keep something in it so the row height still reserves correctly).
 
   Formatting rules:
     Stock Price          $0.00   (dollars, 2 decimals)
@@ -87,11 +88,11 @@
       <div class="tile-label">Stock Price</div>
       <div class="tile-row">
         <span class="tile-key">Current</span>
-        <span class="tile-val">$81.59</span>
+        <span class="tile-val">$28.16</span>
       </div>
-      <div class="tile-row is-hidden">
+      <div class="tile-row">
         <span class="tile-key">Prior Year</span>
-        <span class="tile-val">$79.11</span>
+        <span class="tile-val">$20.46</span>
       </div>
     </div>
 
@@ -99,11 +100,11 @@
       <div class="tile-label">EPS</div>
       <div class="tile-row">
         <span class="tile-key">Current</span>
-        <span class="tile-val">$3.12</span>
+        <span class="tile-val">$2.39</span>
       </div>
-      <div class="tile-row is-hidden">
+      <div class="tile-row">
         <span class="tile-key">Prior Year</span>
-        <span class="tile-val">$2.99</span>
+        <span class="tile-val">$2.01</span>
       </div>
     </div>
 
@@ -111,11 +112,11 @@
       <div class="tile-label">Return on Assets</div>
       <div class="tile-row">
         <span class="tile-key">Current</span>
-        <span class="tile-val">7.31%</span>
+        <span class="tile-val">18.20%</span>
       </div>
       <div class="tile-row is-hidden">
         <span class="tile-key">Prior Year</span>
-        <span class="tile-val">6.56%</span>
+        <span class="tile-val">18.14%</span>
       </div>
     </div>
 
@@ -123,11 +124,11 @@
       <div class="tile-label">Revenue (in billions)</div>
       <div class="tile-row">
         <span class="tile-key">Current</span>
-        <span class="tile-val">$5.39B</span>
+        <span class="tile-val">$54.00B</span>
       </div>
-      <div class="tile-row is-hidden">
+      <div class="tile-row">
         <span class="tile-key">Prior Year</span>
-        <span class="tile-val">$6.01B</span>
+        <span class="tile-val">$43.62B</span>
       </div>
     </div>
 
